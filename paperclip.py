@@ -43,10 +43,26 @@ def is_project_buyable(driver, name):
         
     # 3. Check if the button is enabled (Selenium checks the 'disabled' attribute for us)
     return matches[0].is_enabled()
+def buy_project(driver, name):
+    try:
+        # 1. Target buttons specifically inside the 'projectListTop' div
+        xpath = f"//div[@id='projectListTop']//button[contains(., '{name}')]"
+        btn = driver.find_element(By.XPATH, xpath)
+
+        # 2. Only click if it is actually enabled (affordable)
+        if btn.is_enabled():
+            btn.click()
+            return True # Success
+            
+    except Exception:
+        # This catches errors if the project isn't there or disappears
+        pass
+        
+    return False # Failed to buy
 def buy_projects(driver):
     
     if is_project_buyable(driver, project_order[0]):
-        pass
+        buy_project(driver, project_order[0])
 
 opts = Options()
 opts.add_argument("--start-maximized")
