@@ -5,6 +5,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from decimal import Decimal
 
+project_order = ["Creativity"]
+
 def get_wire_from_js(driver):
     val = driver.execute_script("return window.wire;")
     return Decimal(str(val or 0))
@@ -13,7 +15,7 @@ def get_js_variable(driver, variable):
     val = driver.execute_script(execute_string)
     return Decimal(str(val or 0))
 def memory_processors ():
-    sequence = [(1,1),(1,2),(4,2)]
+    sequence = [(1,1),(1,2),(4,2),(4,4),(100,100)]
     processors = get_js_variable(driver, "window.processors")
     memory = get_js_variable(driver, "window.memory")
     get_trust = get_js_variable(driver, "window.trust")
@@ -31,6 +33,20 @@ def memory_processors ():
 def is_project_visible(driver, name):
     # Returns True if the button is currently in the project list
     return len(driver.find_elements(By.XPATH, f"//div[@id='projectListTop']//button[contains(., '{name}')]")) > 0
+def is_project_buyable(driver, name):
+    # 1. Find the button (using find_elements so it doesn't crash if missing)
+    matches = driver.find_elements(By.XPATH, f"//div[@id='projectListTop']//button[contains(., '{name}')]")
+    
+    # 2. If it's not on the screen, you can't buy it
+    if not matches:
+        return False
+        
+    # 3. Check if the button is enabled (Selenium checks the 'disabled' attribute for us)
+    return matches[0].is_enabled()
+def buy_projects(driver):
+    
+    if is_project_buyable(driver, project_order[0]):
+        pass
 
 opts = Options()
 opts.add_argument("--start-maximized")
