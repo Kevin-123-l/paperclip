@@ -27,8 +27,10 @@ def memory_processors ():
             driver.find_element(By.ID, "btnAddProc").click()
         if memory < sequence[index_sequence][1]:
             driver.find_element(By.ID, "btnAddMem").click()
-
     return
+def is_project_visible(driver, name):
+    # Returns True if the button is currently in the project list
+    return len(driver.find_elements(By.XPATH, f"//div[@id='projectListTop']//button[contains(., '{name}')]")) > 0
 
 opts = Options()
 opts.add_argument("--start-maximized")
