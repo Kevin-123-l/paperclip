@@ -19,7 +19,6 @@ def memory_processors ():
     processors = get_js_variable(driver, "window.processors")
     memory = get_js_variable(driver, "window.memory")
     get_trust = get_js_variable(driver, "window.trust")
-    print(get_trust)
     if get_trust > 2:
         index_sequence = 0
         while (processors >= sequence[index_sequence][0]) and (memory >= sequence[index_sequence][1]):
@@ -62,6 +61,7 @@ def buy_project(driver, name):
 def buy_projects(driver):
     if len(project_order) > 0:
         if is_project_buyable(driver, project_order[0]):
+            print ("debug1")
             buy_project(driver, project_order[0])
             project_order.pop(0)
 
@@ -72,7 +72,6 @@ driver = webdriver.Chrome(options=opts)
 wait = WebDriverWait(driver, 20)
 driver.get("https://www.decisionproblem.com/paperclips/index2.html")
 wait.until(lambda d: d.execute_script("return document.readyState") == "complete")
-print(driver.title)
 make_btn = wait.until(EC.element_to_be_clickable(
     (By.XPATH, "//button[contains(., 'Make Paperclip')] | //*[@role='button' and contains(., 'Make Paperclip')]")
 
