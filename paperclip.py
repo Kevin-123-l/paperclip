@@ -78,7 +78,10 @@ make_btn = wait.until(EC.element_to_be_clickable(
 ))
 while True:
     # make_btn.click()
-    driver.find_element(By.ID, "btnMakePaperclip").click()
+    try:
+        driver.find_element(By.ID, "btnMakePaperclip").click()
+    except Exception:
+        pass
     wire = get_wire_from_js(driver)
     if wire < 100:
         driver.find_element(By.ID,"btnBuyWire").click()
