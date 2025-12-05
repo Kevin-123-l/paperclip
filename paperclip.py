@@ -60,9 +60,10 @@ def buy_project(driver, name):
         
     return False # Failed to buy
 def buy_projects(driver):
-    
-    if is_project_buyable(driver, project_order[0]):
-        buy_project(driver, project_order[0])
+    if len(project_order) > 0:
+        if is_project_buyable(driver, project_order[0]):
+            buy_project(driver, project_order[0])
+            project_order.pop(0)
 
 opts = Options()
 opts.add_argument("--start-maximized")
@@ -90,3 +91,4 @@ while True:
     if totalmoney > (clippercost + wirecost):
         driver.find_element(By.ID,"btnMakeClipper").click()
     memory_processors()
+    buy_projects(driver)
